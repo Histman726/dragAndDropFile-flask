@@ -2,6 +2,30 @@
 
 {% block content %}
 
+<h2 class="text-center text-white">Cloud Files</h2>
+    <script>
+    // Note that the name "myDropzone" is the camelized
+    // id of the form.
+    Dropzone.options.myDropzone = {
+    // Configuration options go here
+    };
+    </script>
+
+    <div class="mt-4 mg-celeste">
+        <form action="" class="dropzone" id="my-dropzone"></form>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+        $(".dropzone").dropzone({
+            url: '/upload',
+            width: 500,
+            height: 500,
+            progressBarWidth: '100%',
+            maxFileSize: '5MB'
+        })
+    });
+    </script>
 
 
 {% endblock %}

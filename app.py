@@ -21,13 +21,10 @@ class Files(db.Model):
 
 @app.route('/')
 def main():
-    user = User(name='ivan', password='123')
-    db.session.add(user)
-    db.session.commit()
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
     with app.app_context():
         db.create_all()
