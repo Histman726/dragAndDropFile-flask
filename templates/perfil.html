@@ -1,5 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+<div class="mx-auto w-30">
+    <div class="card text-bg-dark mg-celeste">
+        <img src="" alt="Foto de perfil">
+        <div class="card-body">
+            <h2 class="card-title">Nombre del usuario</h2>
+            <a href="{{ url_for('home') }}" class="card-link">Subir archivos</a>
+            <a href="{{ url_for('archivos_uploaded') }}" class="card-link">Ver archivos subidos</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -29,6 +29,16 @@ def home():
     return render_template('home.html')
 
 
+@app.route('/archivos')
+def archivos_uploaded():
+    return render_template('archivos subidos.html')
+
+
+@app.route('/perfil')
+def perfil():
+    return render_template('perfil.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
     with app.app_context():
