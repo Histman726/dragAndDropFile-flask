@@ -3,16 +3,23 @@
 {% block content %}
 
 <h2 class="text-center text-white">Cloud Files</h2>
-    <script>
-    // Note that the name "myDropzone" is the camelized
-    // id of the form.
-    Dropzone.options.myDropzone = {
-    // Configuration options go here
-    };
-    </script>
+
+
 
     <div class="mg-celeste">
-        <form action="" class="dropzone" id="my-dropzone"></form>
+        {% if not session['id'] %}
+        <h4 class="text-danger">Para subir un archivo necesitas iniciar sesión</h4>
+        <a href="{{ url_for('perfil') }}" class="link-primary">Inicio de sesión</a>
+        {% endif %}
+
+        {{ session['id'] }}
+        {% if session['id'] %}
+        <div class="dropzone">
+            <div class="dz-message">
+                <h1>Drop files here or click to upload.</h1>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <script>

@@ -1,10 +1,21 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+import os
+from datetime import datetime
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.secret_key = 'cloud files'
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///files.sqlite"
 db = SQLAlchemy(app)
+
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'docx', 'xlsx', 'pptx'}
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 class User(db.Model):
@@ -18,11 +29,31 @@ class Files(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
+    fecha = db.Column(db.String(50))
 
 
 @app.route('/')
 def main():
     return render_template('index.html')
+
+
+@app.route('/upload', methods=['POST', 'GET'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        now = datetime.now()
+
+        if file and allowed_file(file.filename):
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            new_file = Files(filename=file.filename, owner_id=session['id'], fecha=now.strftime("%m/%d/%Y, %H:%M:%S"))
+            db.session.add(new_file)
+            db.session.commit()
+            print('File successfully uploaded ' + file.filename + ' to the database!')
+        else:
+            print('Invalid Uplaod only txt, pdf, png, jpg, jpeg, gif')
+        msg = 'Success Uplaod'
+    return jsonify(msg)
 
 
 @app.route('/home')
@@ -40,6 +71,7 @@ def perfil():
     if request.method == 'POST':
         user = User.query.filter_by(name=request.form['txtNombre'], password=request.form['txtPassword']).first()
         session['nombre'] = user.name
+        session['id'] = user.id
 
     return render_template('perfil.html')
 
