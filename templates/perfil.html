@@ -3,12 +3,26 @@
 {% block content %}
 <div class="mx-auto w-30">
     <div class="card text-bg-dark mg-celeste">
-        <img src="" alt="Foto de perfil">
+        {% if not session['nombre'] %}
+        <h2 class="card-title m-3">Inicio de sesión</h2>
+        <form action="{{ url_for('perfil') }}" method="post" class="m-3">
+            <label for="txtNombre" class="form-label">Nombre: </label>
+            <input type="text" name="txtNombre" id="txtNombre" placeholder="Introduce tu nombre" class="form-control">
+            <label for="txtPassword" class="form-label">Contraseña: </label>
+            <input type="password" name="txtPassword" id="txtPassword" placeholder="Introduce tu password" class="form-control">
+            <button type="submit" class="btn btn-success mt-2">Enviar</button>
+            <a href="{{ url_for('registro') }}" class="btn btn-warning">Registrarse</a>
+        </form>
+        {% endif %}
+
+        {% if session['nombre'] %}
         <div class="card-body">
-            <h2 class="card-title">Nombre del usuario</h2>
+            <h2 class="card-title">{{ session['nombre'] }}</h2>
             <a href="{{ url_for('home') }}" class="card-link">Subir archivos</a>
             <a href="{{ url_for('archivos_uploaded') }}" class="card-link">Ver archivos subidos</a>
+            <a href="{{ url_for('cerrar') }}" class="card-link">Cerrar sesión</a>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="card text-bg-dark mg-celeste">
+        <h2 class="card-title m-3">Registro</h2>
+        <form action="{{ url_for('registro') }}" method="post" class="m-3">
+            <label for="txtNombre" class="form-label">Nombre: </label>
+            <input type="text" name="txtNombre" id="txtNombre" placeholder="Introduce tu nombre" class="form-control">
+            <label for="txtPassword" class="form-label">Contraseña: </label>
+            <input type="password" name="txtPassword" id="txtPassword" placeholder="Introduce tu password" class="form-control">
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
+    </div>
+{% endblock %}

@@ -8,8 +8,8 @@
             <p class="lead text-white">¿Qué desea hacer esta vez en el sitio web?</p>
             <hr class="my-2">
             <p class="lead">
-                <a role="button" class="btn btn-primary btn-lg text-white" href="">Ver archivos subidos</a>
-                <a role="button" class="btn btn-primary btn-lg text-white" href="">Subir un nuevo archivo</a>
+                <a role="button" class="btn btn-primary btn-lg text-white" href="{{ url_for('archivos_uploaded') }}">Ver archivos subidos</a>
+                <a role="button" class="btn btn-primary btn-lg text-white" href="{{ url_for('main') }}">Subir un nuevo archivo</a>
             </p>
         </div>
     </div>
