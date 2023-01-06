@@ -17,7 +17,7 @@
                 <td>{{ file.filename }}</td>
                 <td>{{ file.fecha }}</td>
                 <td>
-                    <a href="" class="btn btn-warning">Cambiar nombre</a>
+                    <a href="{{ url_for('rename', id=3, new_filename='cepillo multiusos') }}" class="btn btn-warning">Cambiar nombre</a>
                     <a href="" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>

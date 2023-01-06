@@ -12,6 +12,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///files.sqlite"
 db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'docx', 'xlsx', 'pptx'}
+FILES_UPLOADS_FOLDER = 'C:\\Users\\monic\\PycharmProjects\\dragandDropFileFlask\\static\\uploads\\'
 
 
 def allowed_file(filename):
@@ -65,6 +66,16 @@ def home():
 def archivos_uploaded():
     files = db.session.query(Files).filter(Files.owner_id == session['id'])
     return render_template('archivos subidos.html', files=files)
+
+
+@app.route('/rename/<int:id><string:new_filename>')
+def rename(id, new_filename):
+    file = Files.query.filter_by(id=id).first()
+    filename, ext = os.path.splitext(file.filename)
+    os.rename(FILES_UPLOADS_FOLDER + file.filename, FILES_UPLOADS_FOLDER + new_filename + ext)
+    file.filename = new_filename + ext
+    db.session.commit()
+    return redirect(url_for('archivos_uploaded'))
 
 
 @app.route('/perfil', methods=['GET', 'POST'])
