@@ -12,11 +12,16 @@
             </tr>
         </thead>
         <tbody>
+            {% for file in files %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ file.filename }}</td>
+                <td>{{ file.fecha }}</td>
+                <td>
+                    <a href="" class="btn btn-warning">Cambiar nombre</a>
+                    <a href="" class="btn btn-danger">Eliminar</a>
+                </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 

@@ -63,7 +63,8 @@ def home():
 
 @app.route('/archivos')
 def archivos_uploaded():
-    return render_template('archivos subidos.html')
+    files = db.session.query(Files).filter(Files.owner_id == session['id'])
+    return render_template('archivos subidos.html', files=files)
 
 
 @app.route('/perfil', methods=['GET', 'POST'])
