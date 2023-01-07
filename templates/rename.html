@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="card text-bg-dark mg-celeste">
+        <h2 class="card-title m-3">Cambiar Nombre</h2>
+        <div class="card-body">
+            <form action="{{ url_for('rename') }}" method="post">
+                <input type="hidden" value="{{ id }}" name="txtId">
+                <label for="txtNuevoNombre" class="form-label text-white">Nuevo nombre</label>
+                <input type="text" id="txtNuevoNombre" name="txtNuevoNombre" class="form-control">
+                <button type="submit" class="btn btn-success mt-2">Guardar</button>
+                <a class="btn btn-info mt-2" href="{{ url_for('archivos_uploaded') }}">Regresar</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -68,8 +68,16 @@ def archivos_uploaded():
     return render_template('archivos subidos.html', files=files)
 
 
-@app.route('/rename/<int:id><string:new_filename>')
-def rename(id, new_filename):
+@app.route('/archivos/rename/<int:id>')
+def rename_view(id):
+    return render_template('rename.html', id=id)
+
+
+@app.route('/rename', methods=['POST', 'GET'])
+def rename():
+    id = request.form['txtId']
+    new_filename = request.form['txtNuevoNombre']
+    print(id, new_filename)
     file = Files.query.filter_by(id=id).first()
     filename, ext = os.path.splitext(file.filename)
     os.rename(FILES_UPLOADS_FOLDER + file.filename, FILES_UPLOADS_FOLDER + new_filename + ext)
