@@ -77,11 +77,19 @@ def rename_view(id):
 def rename():
     id = request.form['txtId']
     new_filename = request.form['txtNuevoNombre']
-    print(id, new_filename)
     file = Files.query.filter_by(id=id).first()
     filename, ext = os.path.splitext(file.filename)
     os.rename(FILES_UPLOADS_FOLDER + file.filename, FILES_UPLOADS_FOLDER + new_filename + ext)
     file.filename = new_filename + ext
+    db.session.commit()
+    return redirect(url_for('archivos_uploaded'))
+
+
+@app.route('/archivos/delete/<int:id>')
+def delete(id):
+    file = Files.query.filter_by(id=id).first()
+    os.unlink(FILES_UPLOADS_FOLDER + file.filename)
+    db.session.delete(file)
     db.session.commit()
     return redirect(url_for('archivos_uploaded'))
 
