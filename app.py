@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, jsonify
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 import os
@@ -64,8 +64,21 @@ def home():
 
 @app.route('/archivos')
 def archivos_uploaded():
-    files = db.session.query(Files).filter(Files.owner_id == session['id'])
+    try:
+        files = db.session.query(Files).filter(Files.owner_id == session['id'])
+        print(len(files))
+    except:
+        files = []
+
+    if len(files)==0:
+        files = 0
     return render_template('archivos subidos.html', files=files)
+
+
+@app.route('/archivos/download/<int:id>')
+def download(id):
+    file = Files.query.filter_by(id=id).first()
+    return send_from_directory(FILES_UPLOADS_FOLDER, file.filename, as_attachment=True)
 
 
 @app.route('/archivos/rename/<int:id>')

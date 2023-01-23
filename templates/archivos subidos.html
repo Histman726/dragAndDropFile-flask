@@ -12,17 +12,33 @@
             </tr>
         </thead>
         <tbody>
-            {% for file in files %}
-            <tr>
-                <td>{{ file.filename }}</td>
-                <td>{{ file.fecha }}</td>
-                <td>
-                    <a href="{{ url_for('rename_view', id=file.id) }}" class="btn btn-primary">Cambiar nombre</a>
-                    <a href="{{ url_for('delete', id=file.id) }}" class="btn btn-danger">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
+            {% if files != 0 %}
+                {% for file in files %}
+                <tr>
+                    <td>{{ file.filename }}</td>
+                    <td>{{ file.fecha }}</td>
+                    <td>
+                        <a href="{{ url_for('download', id=file.id) }}" class="btn btn-info">Descargar</a>
+                        <a href="{{ url_for('rename_view', id=file.id) }}" class="btn btn-primary">Cambiar nombre</a>
+                        <a href="{{ url_for('delete', id=file.id) }}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
         </tbody>
     </table>
+
+    {% if not session['nombre'] %}
+        <h3 class="text-danger">Necesita iniciar sesión para ver sus archivos</h3>
+        <a href="{{ url_for('perfil') }}" class="link-primary">Inicia sesión</a>
+        <br>
+        <a href="{{ url_for('registro') }}" class="link-primary">Registro</a>
+    {% endif %}
+
+    {{ files }}
+    {% if session['nombre'] and files==0 %}
+        <h3 class="text-primary">No hay archivos subidos, por favor suba alguno</h3>
+        <a href="{{ url_for('main') }}" class="link-light">Subir archivo</a>
+    {% endif %}
 
 {% endblock %}
